@@ -1,0 +1,4 @@
+Persona1: una frase de cierta cantidad de palabras
+Persona2: otra frase de cierta cantidad de palabras
+Persona1: volviendo a hablar
+PersonaN: apareciendo con una frase de cierta cantidad de palabras
