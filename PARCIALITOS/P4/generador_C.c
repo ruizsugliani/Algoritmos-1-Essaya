@@ -1,0 +1,517 @@
+#include <stdio.h>
+#include "math.h"
+//204
+/*
+Escribir en C un programa que le pregunte al usuario por 5 números enteros y luego
+los imprima de manera inversa al orden en que fueron ingresados.
+*/
+int main() {
+  int entradas[] = {0, 0, 0, 0, 0};
+  char buffer[20];
+  int entero;
+  printf("%s\n", "Por favor ingrese 5 numeros enteros: ");
+  for (int i = 4; i != -1; i--) {
+    fgets(buffer, 20, stdin);
+    entero = atoi(buffer);
+    entradas[i] = entero;
+  }
+  printf("%s\n", "Estas son sus entradas al reves.");
+  for (int j = 0; j != 5; j++) {
+    printf("%d\n", entradas[j]);
+  }
+
+  return 0;
+}
+
+//205
+/*
+Escribir en lenguaje C una función que recibe un arreglo de enteros y su longitud,
+y devuelve la norma del arreglo. La norma se calcula como $\sqrt{\sum{{x_i}^2}}$.
+Nota: la biblioteca math.h contiene las funciones double sqrt(double x) y double pow(double x, double y).
+*/
+float norma(int arreglo[], int len) {
+  int i = 0;
+  int suma = 0;
+  while (i < len) {
+    suma += pow(arreglo[i], 2);
+    i++;
+  }
+  return sqrt(suma);
+}
+
+int main() {
+  int arreglo[] = {4, 3};
+  printf("%f\n", norma(arreglo, 2));
+  return 0;
+}
+
+//206
+/*
+Escribir un programa en C que pida un número al usuario, imprima un mensaje
+indicando si es primo o no, y repita lo mismo hasta que el usuario ingrese -1.
+*/
+int main() {
+  printf("%s\n", "Ingrese un numero para saber si es o no es primo (-1 para terminar)");
+  char buffer[30];
+  int entrada;
+  fgets(buffer , 30, stdin);
+  entrada = atoi(buffer);
+  if (es_primo(entrada) == 1) {
+    printf("%s\n", "Es primo.");
+  } else {
+     printf("%s\n", "No es primo.");
+  }
+  while (entrada != -1) {
+    printf("%s\n", "Ingrese un numero para saber si es o no es primo (-1 para terminar)");
+    fgets(buffer , 30, stdin);
+    entrada = atoi(buffer);
+    if (es_primo(entrada) == 1) {
+      printf("%s\n", "Es primo.");
+    } else {
+      printf("%s\n", "No es primo.");
+    }
+  }
+  return 0;
+
+}
+
+//207
+/*
+Escribir en C un programa que pide al usuario un número n >= 1 (repitiendo hasta
+que el número ingresado sea válido), y luego imprime un triángulo de altura n.
+Ejemplo:
+Ingrese la altura del triangulo: 3
+*
+**
+***
+*/
+void imprimir_triangulo(int n) {
+  int i = 0;
+    while(i < n) {
+      for (int j = 0; j <= i; j++) {
+        printf("%c", '*');
+    }
+    printf("%c", '\n');
+    i++;
+    }
+}
+
+
+int main() {
+  printf("%s\n", "Ingrese un numero mayor o igual a 1 para continuar.");
+  char buffer[30];
+  fgets(buffer, 30, stdin);
+  int n = atoi(buffer);
+  while (n < 1) {
+    printf("%s\n", "Ingrese un numero mayor o igual a 1 para continuar.");
+    fgets(buffer, 30, stdin);
+    n = atoi(buffer);
+  }
+  imprimir_triangulo(n);
+  return 0;
+}
+
+//208
+/*
+Escribir en C la función int obtener_valor(const int vector[], int len, int pos).
+La función debe devolver el valor que se encuentra en vector[pos], interpretando
+pos como en Python. Es decir, pos puede tomar valores entre -len y len - 1; y para
+los valores negativos busca los elementos comenzando desde la última posición del vector.
+Si pos no es válida, devolver la constante INT_MIN (asumir que la constante ya fue declarada).
+*/
+#define INT_MIN 200
+int obtener_valor(const int vector[], int len, int pos) {
+  if (pos < -len || pos > len - 1) {
+    return INT_MIN;
+  }
+  if (pos < 0) {
+    return vector[pos + len];
+  } else {
+    return vector[pos];
+  }
+}
+
+//209
+/*
+Escribir en C una función que reciba un número secreto n (de tipo int) y le pregunte
+un número al usuario. Si el número ingresado es distinto a n, debe indicarle si
+es mayor o menor y volver a pedirle otro número. Si es igual, debe felicitar al
+usuario y mostrar en cuántos intentos adivinó.
+*/
+void adivinar(int secreto) {
+  int contador = 0;
+  printf("%s\n", "Ingrese un numero para intentar adivinar el numero secreto [1, 100]: ");
+  char buffer[30];
+  fgets(buffer, 30, stdin);
+  int intento = atoi(buffer);
+  while (intento <= 100 || intento >= 1) {
+    if (intento < secreto) {
+      printf("%s\n", "El secreto es mayor, ingrese un numero nuevamente: ");
+      contador ++;
+      fgets(buffer, 30, stdin);
+      intento = atoi(buffer);
+    }
+    if (intento > secreto) {
+      printf("%s\n", "El secreto es menor, ingrese un numero nuevamente: ");
+      contador ++;
+      fgets(buffer, 30, stdin);
+      intento = atoi(buffer);
+    }
+    if (intento == secreto) {
+      printf("%s", "ESE ES EL SECRETO, FELICITACIONES !, TUS INTENTOS: ");
+      printf("%d\n", contador);
+      break;
+    }
+  }
+}
+
+//210
+/*
+Escribir en C la función contar_menores, que recibe un vector de enteros y la
+cantidad de elementos, y devuelve cuántos números del vector son menores al valor
+recibido.
+*/
+int contar_menores(int numeros[], int len, int valor) {
+  int suma = 0;
+  for (int i = 0; i < len; i++) {
+    if (numeros[i] < valor) {
+      suma++;
+    }
+  }
+  return suma;
+}
+
+int main() {
+  int numeros[] = {1, 4, 5, 2, 3, 6, 8, 1};
+  printf("%d\n", contar_menores(numeros, 8, 6));
+  return 0;
+}
+
+//211
+/*
+Implementar en C una función que reciba dos arreglos de enteros (y sus respectivos
+tamaños), y que imprima los números del primer arreglo que no están presentes en el
+segundo. Ejemplo:
+
+int numeros[] = {1, 2, 7, 2, 3, 5};
+int ignorar[] = {2, 3};
+imprimir(numeros, 6, ignorar, 2);
+// Salida:
+1
+7
+5
+*/
+void imprimir(int arr1[], int len1, int arr2[], int len2) {
+  int i, j;
+  for (i = 0; i < len1; i++) {
+    for (j = 0; j < len2; j++) {
+      if (arr1[i] == arr2[j]) {
+        break;
+      }
+    }
+    if (j == len2) {
+      printf("%d\n", arr1[i]);
+    }
+  }
+}
+
+int main() {
+  int numeros[] = {1, 2, 7, 2, 3, 5, 8};
+  int ignorar[] = {2, 3, 4};
+  imprimir(numeros, 7, ignorar, 3);
+  return 0;
+}
+
+
+//212
+/*
+Escribir en lenguaje C un programa que pida al usuario un número n e imprima un
+cuadrado de lado n formado por asteriscos.
+Ejemplo:
+Ingrese un numero: 4
+****
+*  *
+*  *
+****
+*/
+int main() {
+  printf("%s\n", "Ingrese un numero positivo: ");
+  char buffer[30];
+  fgets(buffer, 30, stdin);
+  int entrada = atoi(buffer);
+  while (entrada < 1) {
+    printf("%s\n", "Ingrese un numero positivo: ");
+    fgets(buffer, 30, stdin);
+    entrada = atoi(buffer);
+  }
+  //Imprime el techo
+  for (int i = 0; i < entrada; i++) {
+    printf("*");
+  }
+  printf("\n");
+
+  //Imprime los bordes;
+  for (int i = 0; i < (entrada - 2); i++) {
+    for (int j = 0; j <= entrada; j++) {
+      if (j == 0 || j == entrada - 2) {
+        printf("*");
+      }
+      if (j == entrada) {
+        printf("\n");
+      } else {
+        printf(" ");
+      }
+    }
+  }
+
+  //Imprime el piso
+  for (int i = 0; i < entrada; i++) {
+    printf("*");
+  }
+  printf("\n");
+}
+
+//213
+/*
+Escribir en lenguaje C una función que recibe una cadena de caracteres e imprime
+la cantidad de apariciones de cada caracter. Ejemplo: caracteres("Barbara")
+a: 3
+b: 1
+r: 2
+B: 1
+Ayuda: recordar que cada caracter (char) es un número entre 0 y 255. Usar un arreglo de 255 posiciones para contar la cantidad de ocurrencias de cada caracter.
+*/
+
+//214
+/*
+Escribir en C una función que pida al usuario que ingrese un número natural e
+imprima por pantalla los primeros n números primos. Se debe implementar una función
+auxiliar es_primo que recibe un número y devuelve true o false dependiendo si el
+número es primo o no. Por ej, si el usuario ingresa 4, debe imprimir 2,3,5,7.
+*/
+void primeros_primos(int n) {
+  int contador = 0;
+  for (int i = 2; ; i++) {
+    if (es_primo(i) == 1) {
+      printf("%d\n", i);
+      contador++;
+    } else {
+      continue;
+    }
+    if (contador == n) {
+      break;
+    } else {
+      continue;
+    }
+  }
+}
+
+int main() {
+  primeros_primos(5);
+  return 0;
+}
+
+//215
+/*
+Dado un arreglo de enteros y su longitud, escribir en lenguaje C una función que
+devuelva el mayor elemento del arreglo.
+*/
+int encontar_mayor_elemento(int arreglo[], int len) {
+  int mayor = arreglo[0];
+  for (int i = 1; i < len; i ++) {
+    if (arreglo [i] > mayor) {
+      mayor = arreglo[i];
+    }
+  }
+  return mayor;
+}
+
+int main() {
+  int arreglo[] = {10, 3, 5, 6};
+  printf("%d\n", encontar_mayor_elemento(arreglo, 4));
+  return 0;
+}
+
+//216
+/*
+Implementar en C la función potencia(), que recibe la base (número entero) y el
+exponente (número entero no negativo) y devuelva el resultado de elevar la base
+al exponente. Nota: no pueden incluir bibliotecas para resolver la potencia, por
+lo que la funcion math.pow no está disponible para usar.
+*/
+float potencia(int base, int exponente) {
+  int i = 1;
+  int res = base;
+  while (i != exponente) {
+    res *= base;
+    i++;
+  }
+  return res;
+}
+
+int main() {
+  printf("%f\n", potencia(5, 2));
+  return 0;
+}
+
+//217
+/*
+Escribir un programa en C que le pida al usuario que ingrese una cadena y luego
+muestre por pantalla esa cadena pero reemplazando cada vocal por un *.
+*/
+int main() {
+  printf("%s\n", "Ingrese una cadena: ");
+  char cadena[30];
+  fgets(cadena, 30, stdin);
+  int len = strlen(cadena);
+  for (int i = 0; i < len; i++) {
+    if (cadena[i] == 'a' || cadena[i] == 'e' || cadena[i] == 'i' ||  cadena[i] == 'o' ||  cadena[i] == 'u') {
+      cadena[i] ='*';
+    }
+  }
+  printf("%s\n", cadena);
+  return 0;
+}
+
+//218
+/*
+Implementar en C la función invertir_arreglo(int arreglo[], unsigned int n), que
+invierte el arreglo de números in-place.
+*/
+void invertir_arreglo(int arreglo[], unsigned int n) {
+  int temp;
+  for (int i = 0; i < n / 2; i++) {
+    temp = arreglo[i];
+    arreglo[i] = arreglo[n-i-1];
+    arreglo[n-i-1] = temp;
+  }
+}
+
+//219
+/*
+Implementar en C una función que reciba un número entero positivo n e imprima
+una flecha hacia la derecha de longitud n. Por ejemplo, para n = 4:
+
+*
+ *
+  *
+****
+  *
+ *
+*
+*/
+void imprimir_flecha(int n) {
+  //Imprime la parte superior de la flecha
+  for (int i = 0; i < n - 1; i++) {
+    for (int j = 0;j < n - 1; j++) {
+      if (j == i) {
+        printf("*\n");
+        break;
+      } else {
+        printf(" ");
+      }
+    }
+  }
+
+  //Imprime el medio de la flecha
+  for (int i = 0; i != n; i++) {
+    printf("*");
+  }
+  printf("\n");
+
+  //Imprime la parte inferior de la flecha
+  for (int i = n - 2; i >= 0; i--) {
+    for (int j = 0; j < n - 1; j++) {
+      if (j == i) {
+        printf("*\n");
+        break;
+      } else {
+        printf(" ");
+      }
+    }
+  }
+}
+
+
+int main() {
+  imprimir_flecha(10);
+  return 0;
+}
+
+//220
+/*
+Escribir en lenguaje C un programa que reciba un número entero positivo n e
+imprima un triángulo equilátero de esa base y altura. Por ejemplo, para n = 4:
+
+   *
+  * *
+ * * *
+* * * *
+*/
+
+//221
+/*
+Implementar en C una función que reciba una cadena e imprima la cantidad de
+letras, números y espacios presentes en la misma. Usar las funciones de la
+biblioteca: int isalpha(char), int isdigit(char), isspace(char).
+*/
+//221
+/*
+Implementar en C una función que reciba una cadena e imprima la cantidad de
+letras, números y espacios presentes en la misma. Usar las funciones de la
+biblioteca: int isalpha(char), int isdigit(char), isspace(char).
+*/
+void cantidad_de_caracteres(char cadena[]) {
+  int res = 0;
+  for (int i = 0; cadena[i] != '\0'; i++) {
+    char temp = cadena[i];
+    if (isalpha(temp)) {
+      res++;
+    } else if (isdigit(temp)) {
+      res++;
+    } else if (isspace(temp)) {
+      res++;
+    }
+  }
+  printf("%s %d\n","La cantidad de caracteres detectada es", res);
+}
+
+int main() {
+  char cadena[] = "Hol4444444      3333 ";
+  cantidad_de_caracteres(cadena);
+  return 0;
+}
+
+//222
+/*
+Escribir en C un programa que pida al usuario dos palabras. El programa debe
+imprimir ambas palabras en una línea, separadas por una secuencia de puntos de
+forma tal que la longitud total de la línea sea de 30 caracteres. Ejemplo:
+
+Primera palabra: Hola
+Segunda palabra: Mundo
+Hola.....................Mundo
+*/
+
+//223
+/*
+Escribir una función en C que reciba un arreglo de enteros, su largo, y un número
+y devuelva la cantidad de veces que aparece ese número en el arreglo. Mostrar su
+correcto funcionamiento escribiendo un programa (un main) que permita probarla
+pidiéndole un entero al usuario para buscar en un arreglo predefinido.
+*/
+int cantidad_de_apariciones(int arreglo[], int len, int numero) {
+  int apariciones = 0;
+  for (int i = 0; i < len; i++) {
+    if (arreglo[i] == numero) {
+      apariciones ++;
+    }
+  }
+  return apariciones;
+}
+
+int main() {
+  int arreglo[] = {4, 5, 6, 4, 4, 2, 1, 8, 4, 4};
+  printf("%d\n", cantidad_de_apariciones(arreglo, 10, 4));
+  return 0;
+}
